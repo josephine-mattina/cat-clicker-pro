@@ -68,7 +68,7 @@ const view = {
 			photoContainer.innerHTML = ``;
 		};
 		//TODO: how to reference the allCats array??
-		// Commented out lines below as console error messages return 'i is not defined'as I don't know how to 
+		// Commented out lines below as console error messages return 'i is not defined' 
 		// as I don't know how to properly reference the array.
 		const catItem = document.createElement('article');
 		catItem.className = 'cat-item';
