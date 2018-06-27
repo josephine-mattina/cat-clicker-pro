@@ -29,13 +29,17 @@ const model = {
 			alt: 'Norwegian Forest Cat',
 			count: 0,
 		}
-	]
+	],
+
+	returnCats: function() {
+		const catsArray = model.allCats;
+		return catsArray;
+	}
 };
 
 const controller = {
-	showCat: function() {
-		console.log(this);
-		view.render();
+	getCats: function() {
+		return model.returnCats();
 	},
 
 	init: function() {
@@ -46,103 +50,57 @@ const controller = {
 const view = {
 	init: function() {
 		const container = document.querySelector('.cats-container');
+		const cats = controller.getCats();
 
-		// Pretty sure this is incorrect as it directly references model within the view, but it works.
-		// How else could I reference the allCats array? Should I rebuild using constructor function and new keyword?
-		for (let i = 0; i < model.allCats.length; i++) {
+		for (let i = 0; i < cats.length; i++) {
 			const catName = document.createElement('h3');
 			catName.className = 'btn';
-			catName.innerHTML = model.allCats[i].name;
+			catName.innerHTML = cats[i].name;
 			container.appendChild(catName);
 
-			catName.addEventListener('click', function() {
-				controller.showCat();
-			});
+			catName.addEventListener('click', (function(cat, i) {
+				return function() {
+					view.render(cat, i);
+				}
+			})(cats[i], i));
 		};
 	},
 
-	render: function() {
+	render: function(cat, i) {
 		const photoContainer = document.querySelector('.cats-photos');
 
 		if (photoContainer.childElementCount == 1) {
 			photoContainer.innerHTML = ``;
 		};
-		//TODO: how to reference the allCats array??
-		// Commented out lines below as console error messages return 'i is not defined' 
-		// as I don't know how to properly reference the array.
+
 		const catItem = document.createElement('article');
 		catItem.className = 'cat-item';
 		photoContainer.appendChild(catItem);
 
 		const catName = document.createElement('h3');
-		// catName.innerHTML = model.allCats[i].name;
+		catName.innerHTML = cat.name;
 		catItem.appendChild(catName);
 
 		const catImg = document.createElement('img');
 		catImg.className = 'cat-img';
-		// catImg.src = model.allCats[i].img;
-		// catImg.alt = model.allCats[i].alt;
+		catImg.src = cat.img;
+		catImg.alt = cat.alt;
 		catItem.appendChild(catImg);
 
 		const catCount = document.createElement('p');
 		catCount.className = 'clicks';
-		// catCount.innerHTML = model.allCats[i].count + ' clicks';
+		catCount.innerHTML = cat.count + ' clicks';
 		catItem.appendChild(catCount);
+
+		const catClick = document.querySelector('.cat-img');
+
+		catClick.addEventListener('click', function() {
+			cat.count++;
+
+			const clickText = document.querySelector('.clicks');
+			clickText.innerHTML = `${cat.count} clicks`
+		});
 	}
 };
 
 controller.init();
-
-
-// Original code from previous tasks for reference
-
-// function showCats(array) {
-// 	const container = document.querySelector('.cats-container');
-// 	const photoContainer = document.querySelector('.cats-photos');
-
-// 	for (let i = 0; i < array.length; i++) {
-// 		let cat = array[i];
-
-// 		const catName = document.createElement('h3');
-// 		catName.className = 'btn';
-// 		catName.innerHTML = array[i].name;
-// 		container.appendChild(catName);
-
-// 		catName.addEventListener('click', function() {
-
-// 			if (photoContainer.childElementCount == 1) {
-// 				photoContainer.innerHTML = ``;
-// 			};
-
-// 			const catItem = document.createElement('article');
-// 			catItem.className = 'cat-item';
-// 			photoContainer.appendChild(catItem);
-
-// 			const catName = document.createElement('h3');
-// 			catName.innerHTML = array[i].name;
-// 			catItem.appendChild(catName);
-
-// 			const catImg = document.createElement('img');
-// 			catImg.className = 'cat-img';
-// 			catImg.src = array[i].img;
-// 			catImg.alt = array[i].alt;
-// 			catItem.appendChild(catImg);
-
-// 			const catCount = document.createElement('p');
-// 			catCount.className = 'clicks';
-// 			catCount.innerHTML = array[i].count + ' clicks';
-// 			catItem.appendChild(catCount);
-
-// 			const catClick = document.querySelector('.cat-img');
-
-// 			catClick.addEventListener('click', function() {
-// 				array[i].count++;
-
-// 				const clickText = document.querySelector('.clicks');
-// 				clickText.innerHTML = `${array[i].count} clicks`
-// 			});
-// 		});
-// 	}
-// }
-
-// showCats(allCats);
