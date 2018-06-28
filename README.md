@@ -5,7 +5,7 @@ Extending the Cat Clicker mini project for the Udacity Front End Web Development
 
 ## How to run the application
 
-Clone or download the [repo](https://github.com/josephine-mattina/cat-clicker) and open `index.html` in a web browser.
+Clone or download the [repo](https://github.com/josephine-mattina/cat-clicker-pro) and open `index.html` in a web browser.
 
 
 ## How to play Cat Clicker Pro
