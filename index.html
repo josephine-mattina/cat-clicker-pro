@@ -2,16 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Cat Clicker</title>
+    <title>Cat Clicker Premium Pro</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Shadows+Into+Light">
     <link rel="stylesheet" type="text/css" href="css/app.css">
   </head>
   <body>
     <header>
-      <h1>Cat Clicker...Premium!</h1>
+      <h1>Cat Clicker Premium...Pro!</h1>
     </header>
     <section class="cats-container"></section>
     <section class="cats-photos"></section>
+    <section class="admin">
+      <button class="admin-toggle btn" type="button">Admin</button>
+      <form class="admin-form">
+          <input class="admin-input name" type="text" placeholder="Cat Name">
+          <input class="admin-input url" type="text" placeholder="Image Url">
+          <input class="admin-input alt" type="text" placeholder="Image Alt Text">          
+          <input class="admin-input count" type="text" placeholder="Number of Clicks">
+          <input class="save btn" type="submit" value="Save">
+          <input class="cancel btn" type="submit" value="Cancel">
+      </form>
+    </section>
 
 
     <script src="js/app.js"></script>

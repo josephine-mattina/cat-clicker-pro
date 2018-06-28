@@ -1,3 +1,5 @@
+/* ======= Model ======= */
+
 const model = {
 	allCats: [ {
 			name:'Scottie',
@@ -34,23 +36,65 @@ const model = {
 	returnCats: function() {
 		const catsArray = model.allCats;
 		return catsArray;
+	},
+
+	admin: function() {
+		const admin = document.querySelector('.admin-form');
+		return admin;
 	}
 };
 
+/* ======= Controller ======= */
+
 const controller = {
+	init: function() {
+		catsView.init();
+		adminView.init();
+	},
+
 	getCats: function() {
 		return model.returnCats();
 	},
 
-	init: function() {
-		view.init();
+	adminHide: function() {
+		model.admin().hidden = true;
+	},
+
+	adminClick: function() {
+		model.admin().hidden = false;
+	},
+
+	saveClick: function() {
+		const cat = {};
+		cat.name = document.querySelector('.name').value;
+		cat.img = document.querySelector('.url').value;
+		cat.alt = document.querySelector('.alt').value;
+		cat.count = document.querySelector('.count').value;
+
+		model.allCats.push(cat);
+		catsView.init();
+		model.admin().reset();		
+		controller.adminHide();
+	},
+
+	cancelClick: function() {
+		model.admin().reset();
+		model.admin().hidden = true;
 	}
+
+
 };
 
-const view = {
+/* ======= View ======= */
+
+const catsView = {
 	init: function() {
 		const container = document.querySelector('.cats-container');
 		const cats = controller.getCats();
+
+		if (container.childElementCount >= 1) {
+			container.innerHTML = ``;
+		};
 
 		for (let i = 0; i < cats.length; i++) {
 			const catName = document.createElement('h3');
@@ -60,7 +104,7 @@ const view = {
 
 			catName.addEventListener('click', (function(cat, i) {
 				return function() {
-					view.render(cat, i);
+					catsView.render(cat, i);
 				}
 			})(cats[i], i));
 		};
@@ -100,6 +144,32 @@ const view = {
 			const clickText = document.querySelector('.clicks');
 			clickText.innerHTML = `${cat.count} clicks`
 		});
+	}
+};
+
+const adminView = {
+	init: function() {
+		const adminBtn = document.querySelector('.admin-toggle');
+
+		adminBtn.addEventListener('click', function() {
+			controller.adminClick();
+		});
+
+		const cancelBtn =  document.querySelector('.cancel');
+
+		cancelBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			controller.cancelClick();
+		});
+
+		const saveBtn =  document.querySelector('.save');
+		
+		saveBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			controller.saveClick();
+		});
+
+		controller.adminHide();
 	}
 };
 
